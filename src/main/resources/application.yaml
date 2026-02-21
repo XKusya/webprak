@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: webprak
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/billing
+    username: postgres
+    password: password
+  flyway:
+    enabled: true
+
+  jpa:
+    hibernate:
