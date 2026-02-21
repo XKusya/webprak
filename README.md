@@ -115,6 +115,11 @@
 Ниже прикреплена схема сайта с действиями, которые можно на нём выполнить:
 
 ```mermaid
+---
+config:
+    theme: dark
+    layout: elk
+---
 flowchart TD
 
     A["Главная страница"]
@@ -163,7 +168,73 @@ flowchart TD
 ```
 
 ## Схема базы данных
-...
+```mermaid
+---
+config: 
+    theme: dark
+    layout: elk
+---
+erDiagram
+    Client {
+        bigserial id PK
+        varchar name
+        varchar clientType "PERSON|ORG"
+        jsonb details
+        jsonb contacts
+        timestamp createdAt
+    }
+
+    Account {
+        bigserial id PK
+        bigint clientId FK
+        numeric balance
+        numeric creditLimit
+        date debtDueDate
+    }
+
+    ServiceType {
+        bigserial id PK
+        varchar code
+        varchar name
+    }
+
+    Service {
+        bigserial id PK
+        bigint serviceTypeId FK
+        varchar name
+        text description
+        jsonb billing
+        boolean isActive
+    }
+
+    ClientService {
+        bigserial id PK
+        bigint clientId FK
+        bigint serviceId FK
+        timestamp startedAt
+        timestamp endedAt
+        varchar status "ACTIVE|ENDED"
+        varchar externalId
+        jsonb params
+    }
+
+    Operation {
+        bigserial id PK
+        bigint accountId FK
+        varchar opType "PAYMENT|CHARGE"
+        timestamp opTime
+        numeric amount
+        bigint clientServiceId FK
+        text description
+    }
+        
+    Client ||--|| Account : "Account.clientId -> Client.id"
+    ServiceType ||--o{ Service : "ServiceType.id -> Service.serviceTypeId"
+    Client ||--o{ ClientService : "ClientService.clientId -> Client.id"
+    Service ||--o{ ClientService : "ClientService.serviceId -> Service.id"
+    Account ||--o{ Operation : "Operation.accountId -> Account.id"
+    ClientService ||--o{ Operation : "Operation.clientServiceId -> ClientService.id"
+```
 
 # TODO
 - [x] Сценарии использования
