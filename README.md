@@ -194,7 +194,6 @@ erDiagram
 
     ServiceType {
         bigserial id PK
-        varchar code
         varchar name
     }
 
@@ -242,5 +241,6 @@ erDiagram
 - [x] Схема базы данных
 - [x] Сделать скелет проекта 
 - [x] Добавить скрипт инициализации БД
+- [x] Добавить задачи создания, заполнения, отчистки и вывода содержимого бд.
 - [ ] Back-End
 - [ ] Front-End

@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: postgres
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=billing'
@@ -8,4 +9,4 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./src/main/resources/db/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./sql:/sql:ro
