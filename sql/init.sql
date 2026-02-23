@@ -27,10 +27,9 @@ CREATE TABLE Account (
 
 CREATE TABLE ServiceType (
      id BIGSERIAL NOT NULL,
-     code VARCHAR(100) NOT NULL,
      name VARCHAR(100) NOT NULL,
      CONSTRAINT pk_service_type PRIMARY KEY (id),
-     CONSTRAINT uq_service_type_code UNIQUE (code)
+     CONSTRAINT uq_service_type_name UNIQUE (name)
 );
 
 CREATE TABLE Service (

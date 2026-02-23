@@ -41,3 +41,53 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+
+// Задачи для бд
+def dbService = 'postgres'
+def dbName = 'billing'
+def dbUser = 'postgres'
+
+def psqlCmd = {
+	List<String> args -> ['docker', 'compose', 'exec', '-T', dbService, 'psql', '-U', dbUser, '-d', dbName] + args
+}
+
+tasks.register('dbUp', Exec) {
+	group = 'db'
+	description = 'Поднять Postgres'
+	commandLine 'docker', 'compose', 'up', '-d'
+}
+
+tasks.register('dbDown', Exec) {
+	group = 'db'
+	description = 'Остановить Postgres'
+	commandLine 'docker', 'compose', 'down'
+}
+
+tasks.register('dbInit', Exec) {
+	group = 'db'
+	description = 'Создать схему БД (sql/init.sql)'
+	dependsOn 'dbUp'
+	commandLine psqlCmd(['-f', '/sql/init.sql'])
+}
+
+tasks.register('dbFill', Exec) {
+	group = 'db'
+	description = 'Заполнить БД тестовыми данными (sql/fill.sql)'
+	dependsOn 'dbUp'
+	commandLine psqlCmd(['-f', '/sql/fill.sql'])
+}
+
+tasks.register('dbClear', Exec) {
+	group = 'db'
+	description = 'Очистить БД (sql/clear.sql)'
+	dependsOn 'dbUp'
+	commandLine psqlCmd(['-f', '/sql/clear.sql'])
+}
+
+tasks.register('dbShow', Exec) {
+	group = 'db'
+	description = 'Показать содержимое всех таблиц БД'
+	commandLine psqlCmd(['-f', '/sql/show_all.sql'])
+}
