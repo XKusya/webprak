@@ -47,6 +47,8 @@ flowchart TD
     style SN fill: gray
     style SIE fill: gray
 ```
+Более подробно ознакомится со сценариями использования можно [здесь](./docs/usercases.md). 
+Более подробно ознакомится со схемой сайта можно [здесь](./docs/site-struct.md).
 
 ## Схема базы данных
 ```mermaid
@@ -110,6 +112,7 @@ erDiagram
     Account ||--o{ Operation: "Operation.accountId -> Account.id"
     ClientService ||--o{ Operation: "Operation.clientServiceId -> ClientService.id"
 ```
+Описания таблиц и JSON-схем, используемых в таблицах можно посмотреть [здесь](./docs/database.md).
 
 # TODO
 - [x] Сценарии использования
