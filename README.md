@@ -12,65 +12,44 @@
 Ниже прикреплена схема сайта с действиями, которые можно на нём выполнить:
 
 ```mermaid
----
-config:
-    theme: dark
-    layout: elk
----
 flowchart TD
+    M["/ <br> Главная страница"]
+    C["/clients <br> Клиенты"]
+    O["/operations <br> Операции"]
+    S["/services <br> Услуги"]
+    CN["/clients/new <br> Зарегистрировать клиента"]
+    CI["/clients/{id} <br> Просмотреть карточку клиента"]
+    CIE["/clients/{id}/edit <br> Редактировать карточку клиента"]
+    ON["/operations/new <br> Регистрировать поступление/списание"]
+    SI["/services/{id} <br> Просмотреть информацию об услуге"]
+    SN["/services/new <br> Добавить услугу"]
+    SIE["/services/{id}/edit <br> Редактировать информацию об услуге"]
+    M --> C
+    M --> O
+    M --> S
 
-    A["Главная страница"]
+    C --> CN
+    C --> CI
+    CI --> CIE
 
-    B["Клиенты"]
-    C["Операции"]
-    D["Услуги"]
-    
-    E("Зарегистрировать клиента" )
-    F("Просмотреть карточку <br/>клиента")
-    G("Редактировать карточку<br/>клиента")
+    O --> ON
+    O --> CI
+    O --> SI
 
-    H("Регистрировать поступление/списание")
-
-    I("Просмотреть информацию<br/>об услуге")
-    J("Добавить услугу")
-    K("Редактировать информацию<br/>об услуге")
-
-    %% Главная навигация
-    A --> B
-    A --> C
-    A --> D
-
-    %% Клиенты
-    B --> E
-    B --> F
-    F --> G
-
-    %% Операции
-    C --> H
-    H --> F
-    C --> I
-
-    %% Услуги
-    D --> I
-    D --> J
-    I --> K
-
-    style E fill: gray
-    style F fill: gray
-    style G fill: gray
-    style H fill: gray
-    style I fill: gray
-    style J fill: gray
-    style K fill: gray
+    S --> SI
+    S --> SN
+    SI --> SIE
+    style CN fill: gray
+    style CI fill: gray
+    style CIE fill: gray
+    style ON fill: gray
+    style SI fill: gray
+    style SN fill: gray
+    style SIE fill: gray
 ```
 
 ## Схема базы данных
 ```mermaid
----
-config: 
-    theme: dark
-    layout: elk
----
 erDiagram
     Client {
         bigserial id PK
@@ -123,13 +102,13 @@ erDiagram
         bigint clientServiceId FK
         text description
     }
-        
-    Client ||--|| Account : "Account.clientId -> Client.id"
-    ServiceType ||--o{ Service : "ServiceType.id -> Service.serviceTypeId"
-    Client ||--o{ ClientService : "ClientService.clientId -> Client.id"
-    Service ||--o{ ClientService : "ClientService.serviceId -> Service.id"
-    Account ||--o{ Operation : "Operation.accountId -> Account.id"
-    ClientService ||--o{ Operation : "Operation.clientServiceId -> ClientService.id"
+
+    Client ||--|| Account: "Account.clientId -> Client.id"
+    ServiceType ||--o{ Service: "ServiceType.id -> Service.serviceTypeId"
+    Client ||--o{ ClientService: "ClientService.clientId -> Client.id"
+    Service ||--o{ ClientService: "ClientService.serviceId -> Service.id"
+    Account ||--o{ Operation: "Operation.accountId -> Account.id"
+    ClientService ||--o{ Operation: "Operation.clientServiceId -> ClientService.id"
 ```
 
 # TODO

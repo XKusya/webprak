@@ -1,11 +1,6 @@
 # База данных 
 
 ```mermaid
----
-config: 
-    theme: dark
-    layout: elk
----
 erDiagram
     Client {
         bigserial id PK
@@ -58,13 +53,13 @@ erDiagram
         bigint clientServiceId FK
         text description
     }
-        
-    Client ||--|| Account : "Account.clientId -> Client.id"
-    ServiceType ||--o{ Service : "ServiceType.id -> Service.serviceTypeId"
-    Client ||--o{ ClientService : "ClientService.clientId -> Client.id"
-    Service ||--o{ ClientService : "ClientService.serviceId -> Service.id"
-    Account ||--o{ Operation : "Operation.accountId -> Account.id"
-    ClientService ||--o{ Operation : "Operation.clientServiceId -> ClientService.id"
+
+    Client ||--|| Account: "Account.clientId -> Client.id"
+    ServiceType ||--o{ Service: "ServiceType.id -> Service.serviceTypeId"
+    Client ||--o{ ClientService: "ClientService.clientId -> Client.id"
+    Service ||--o{ ClientService: "ClientService.serviceId -> Service.id"
+    Account ||--o{ Operation: "Operation.accountId -> Account.id"
+    ClientService ||--o{ Operation: "Operation.clientServiceId -> ClientService.id"
 ```
 
 # Описание таблиц
