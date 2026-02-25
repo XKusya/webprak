@@ -1,6 +1,6 @@
-CREATE TYPE ClientType AS ENUM ('Person', 'Organization');
-CREATE TYPE ClientServiceStatus AS ENUM ('Active', 'Ended');
-CREATE TYPE OperationType AS ENUM ('Payment', 'Charge');
+﻿CREATE TYPE ClientType AS ENUM ('PERSON', 'ORG');
+CREATE TYPE ClientServiceStatus AS ENUM ('ACTIVE', 'ENDED');
+CREATE TYPE OperationType AS ENUM ('PAYMENT', 'CHARGE');
 
 CREATE TABLE Client (
     id BIGSERIAL NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE ClientService (
    service_id BIGINT NOT NULL,
    started_at TIMESTAMP NOT NULL,
    ended_at TIMESTAMP,
-   status ClientServiceStatus NOT NULL DEFAULT 'Active',
+   status ClientServiceStatus NOT NULL DEFAULT 'ACTIVE',
    external_id VARCHAR(100),
    params jsonb,
    CONSTRAINT pk_client_service PRIMARY KEY (id),
