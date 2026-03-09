@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.hibernate.orm:hibernate-core:7.2.6.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

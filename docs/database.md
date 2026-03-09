@@ -123,7 +123,7 @@ Operation - журнал финансовых операций по счетам
   "lastName": "Petrov",
   "middleName": "Sergeevich",
   "birthDate": "1995-04-12",
-  "sex": "Male",
+  "sex": "MALE",
   "inn": "123456789012",
   "document": {
     "type": "PASSPORT",
