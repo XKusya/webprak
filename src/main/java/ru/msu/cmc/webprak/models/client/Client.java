@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Table(name = "Client")
+@Table(name = "client")
 @Getter
 @Setter
 @ToString

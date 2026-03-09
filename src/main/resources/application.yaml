@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/billing
     username: postgres
     password: password
+  docker:
+    compose:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: validate

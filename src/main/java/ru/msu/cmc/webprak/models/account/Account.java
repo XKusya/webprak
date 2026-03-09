@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Account")
+@Table(name = "account")
 @Getter
 @Setter
 @ToString

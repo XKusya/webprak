@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "ServiceType")
+@Table(name = "servicetype")
 @Getter
 @Setter
 @ToString

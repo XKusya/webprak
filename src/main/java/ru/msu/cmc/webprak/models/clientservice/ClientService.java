@@ -11,7 +11,7 @@ import ru.msu.cmc.webprak.models.service.Service;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ClientService")
+@Table(name = "clientservice")
 @Getter
 @Setter
 @ToString

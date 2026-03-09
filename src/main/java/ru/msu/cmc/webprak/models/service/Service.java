@@ -8,7 +8,7 @@ import ru.msu.cmc.webprak.models.service.json.ServiceBilling;
 import ru.msu.cmc.webprak.models.servicetype.ServiceType;
 
 @Entity
-@Table(name = "Service")
+@Table(name = "service")
 @Getter
 @Setter
 @ToString
