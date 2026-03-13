@@ -3,7 +3,7 @@ package ru.msu.cmc.webprak.models.operation;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.msu.cmc.webprak.models.account.Account;
-import ru.msu.cmc.webprak.models.clientservice.ClientService;
+import ru.msu.cmc.webprak.models.subscription.Subscription;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -26,8 +26,8 @@ public class Operation {
     private Account account;
 
     @ManyToOne
-    @JoinColumn(name = "client_service_id")
-    private ClientService clientService;
+    @JoinColumn(name = "subscription_id")
+    private Subscription subscription;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "op_type", nullable = false)

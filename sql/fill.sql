@@ -88,7 +88,7 @@ SELECT c.id,
 FROM Client c
 WHERE c.name = 'Anna Smirnova';
 
-INSERT INTO ClientService (client_id, service_id, started_at, ended_at, status, external_id, params)
+INSERT INTO Subscription (client_id, service_id, started_at, ended_at, status, external_id, params)
 SELECT c.id,
        s.id,
        NOW() - INTERVAL '30 days',
@@ -100,7 +100,7 @@ FROM Client c
 JOIN Service s ON s.name = 'Mobile voice plan'
 WHERE c.name = 'Ivan Petrov';
 
-INSERT INTO ClientService (client_id, service_id, started_at, ended_at, status, external_id, params)
+INSERT INTO Subscription (client_id, service_id, started_at, ended_at, status, external_id, params)
 SELECT c.id,
        s.id,
        NOW() - INTERVAL '60 days',
@@ -112,7 +112,7 @@ FROM Client c
 JOIN Service s ON s.name = 'SMS basic'
 WHERE c.name = 'Tech Solutions LLC';
 
-INSERT INTO ClientService (client_id, service_id, started_at, ended_at, status, external_id, params)
+INSERT INTO Subscription (client_id, service_id, started_at, ended_at, status, external_id, params)
 SELECT c.id,
        s.id,
        NOW() - INTERVAL '10 days',
@@ -124,7 +124,7 @@ FROM Client c
 JOIN Service s ON s.name = 'Mobile internet 20GB'
 WHERE c.name = 'Anna Smirnova';
 
-INSERT INTO Operation (account_id, op_type, op_time, amount, client_service_id, description)
+INSERT INTO Operation (account_id, op_type, op_time, amount, subscription_id, description)
 SELECT a.id,
        'PAYMENT',
        NOW() - INTERVAL '25 days',
@@ -135,20 +135,20 @@ FROM Account a
 JOIN Client c ON c.id = a.client_id
 WHERE c.name = 'Ivan Petrov';
 
-INSERT INTO Operation (account_id, op_type, op_time, amount, client_service_id, description)
+INSERT INTO Operation (account_id, op_type, op_time, amount, subscription_id, description)
 SELECT a.id,
        'CHARGE',
        NOW() - INTERVAL '5 days',
        15.00,
-       cs.id,
+       sbs.id,
        'Mobile usage charges'
 FROM Client c
 JOIN Account a ON a.client_id = c.id
 JOIN Service s ON s.name = 'Mobile voice plan'
-JOIN ClientService cs ON cs.client_id = c.id AND cs.service_id = s.id AND cs.status = 'ACTIVE'
+JOIN Subscription sbs ON sbs.client_id = c.id AND sbs.service_id = s.id AND sbs.status = 'ACTIVE'
 WHERE c.name = 'Ivan Petrov';
 
-INSERT INTO Operation (account_id, op_type, op_time, amount, client_service_id, description)
+INSERT INTO Operation (account_id, op_type, op_time, amount, subscription_id, description)
 SELECT a.id,
        'PAYMENT',
        NOW() - INTERVAL '50 days',
@@ -159,20 +159,20 @@ FROM Account a
 JOIN Client c ON c.id = a.client_id
 WHERE c.name = 'Tech Solutions LLC';
 
-INSERT INTO Operation (account_id, op_type, op_time, amount, client_service_id, description)
+INSERT INTO Operation (account_id, op_type, op_time, amount, subscription_id, description)
 SELECT a.id,
        'CHARGE',
        NOW() - INTERVAL '3 days',
        10.00,
-       cs.id,
+       sbs.id,
        'Monthly SMS fee'
 FROM Client c
 JOIN Account a ON a.client_id = c.id
 JOIN Service s ON s.name = 'SMS basic'
-JOIN ClientService cs ON cs.client_id = c.id AND cs.service_id = s.id AND cs.status = 'ACTIVE'
+JOIN Subscription sbs ON sbs.client_id = c.id AND sbs.service_id = s.id AND sbs.status = 'ACTIVE'
 WHERE c.name = 'Tech Solutions LLC';
 
-INSERT INTO Operation (account_id, op_type, op_time, amount, client_service_id, description)
+INSERT INTO Operation (account_id, op_type, op_time, amount, subscription_id, description)
 SELECT a.id,
        'PAYMENT',
        NOW() - INTERVAL '9 days',
@@ -183,15 +183,15 @@ FROM Account a
 JOIN Client c ON c.id = a.client_id
 WHERE c.name = 'Anna Smirnova';
 
-INSERT INTO Operation (account_id, op_type, op_time, amount, client_service_id, description)
+INSERT INTO Operation (account_id, op_type, op_time, amount, subscription_id, description)
 SELECT a.id,
        'CHARGE',
        NOW() - INTERVAL '2 days',
        12.00,
-       cs.id,
+       sbs.id,
        'Monthly mobile internet fee'
 FROM Client c
 JOIN Account a ON a.client_id = c.id
 JOIN Service s ON s.name = 'Mobile internet 20GB'
-JOIN ClientService cs ON cs.client_id = c.id AND cs.service_id = s.id AND cs.status = 'ACTIVE'
+JOIN Subscription sbs ON sbs.client_id = c.id AND sbs.service_id = s.id AND sbs.status = 'ACTIVE'
 WHERE c.name = 'Anna Smirnova';

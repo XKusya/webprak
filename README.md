@@ -92,7 +92,7 @@ erDiagram
         boolean isActive
     }
 
-    ClientService {
+    Subscription {
         bigserial id PK
         bigint clientId FK
         bigint serviceId FK
@@ -109,16 +109,16 @@ erDiagram
         varchar opType "PAYMENT|CHARGE"
         timestamp opTime
         numeric amount
-        bigint clientServiceId FK
+        bigint SubscriptionId FK
         text description
     }
 
     Client ||--|| Account: "Account.clientId -> Client.id"
     ServiceType ||--o{ Service: "ServiceType.id -> Service.serviceTypeId"
-    Client ||--o{ ClientService: "ClientService.clientId -> Client.id"
-    Service ||--o{ ClientService: "ClientService.serviceId -> Service.id"
+    Client ||--o{ Subscription: "Subscription.clientId -> Client.id"
+    Service ||--o{ Subscription: "Subscription.serviceId -> Service.id"
     Account ||--o{ Operation: "Operation.accountId -> Account.id"
-    ClientService ||--o{ Operation: "Operation.clientServiceId -> ClientService.id"
+    Subscription ||--o{ Operation: "Operation.SubscriptionId -> Subscription.id"
 ```
 Описания таблиц и JSON-схем, используемых в таблицах можно посмотреть [здесь](./docs/database.md).
 

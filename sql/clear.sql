@@ -1,5 +1,5 @@
 TRUNCATE TABLE Operation,
-    ClientService,
+    Subscription,
     Account,
     Service,
     ServiceType,

@@ -1,23 +1,23 @@
-package ru.msu.cmc.webprak.models.clientservice;
+package ru.msu.cmc.webprak.models.subscription;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.msu.cmc.webprak.models.client.Client;
-import ru.msu.cmc.webprak.models.clientservice.json.ClientServiceParams;
+import ru.msu.cmc.webprak.models.subscription.json.SubscriptionParams;
 import ru.msu.cmc.webprak.models.service.Service;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "clientservice")
+@Table(name = "Subscription")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientService {
+public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -41,12 +41,12 @@ public class ClientService {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     @NonNull
-    private ClientServiceStatus status;
+    private SubscriptionStatus status;
 
     @Column(name = "external_id")
     private String externalId;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "params", columnDefinition = "jsonb")
-    private ClientServiceParams params;
+    private SubscriptionParams params;
 }

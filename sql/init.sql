@@ -1,5 +1,5 @@
 ﻿CREATE TYPE ClientType AS ENUM ('PERSON', 'ORG');
-CREATE TYPE ClientServiceStatus AS ENUM ('ACTIVE', 'ENDED');
+CREATE TYPE SubscriptionStatus AS ENUM ('ACTIVE', 'ENDED');
 CREATE TYPE OperationType AS ENUM ('PAYMENT', 'CHARGE');
 
 CREATE TABLE Client (
@@ -44,22 +44,22 @@ CREATE TABLE Service (
          REFERENCES ServiceType(id)
 );
 
-CREATE TABLE ClientService (
+CREATE TABLE Subscription (
    id BIGSERIAL NOT NULL,
    client_id BIGINT NOT NULL,
    service_id BIGINT NOT NULL,
    started_at TIMESTAMP NOT NULL,
    ended_at TIMESTAMP,
-   status ClientServiceStatus NOT NULL DEFAULT 'ACTIVE',
+   status SubscriptionStatus NOT NULL DEFAULT 'ACTIVE',
    external_id VARCHAR(100),
    params jsonb,
-   CONSTRAINT pk_client_service PRIMARY KEY (id),
-   CONSTRAINT fk_client_service_client FOREIGN KEY (client_id)
+   CONSTRAINT pk_subscription PRIMARY KEY (id),
+   CONSTRAINT fk_subscription_client FOREIGN KEY (client_id)
        REFERENCES Client(id)
        ON DELETE CASCADE,
-   CONSTRAINT fk_client_service_service FOREIGN KEY (service_id)
+   CONSTRAINT fk_subscription_service FOREIGN KEY (service_id)
        REFERENCES Service(id),
-   CONSTRAINT ck_client_service_dates CHECK (
+   CONSTRAINT ck_subscription_dates CHECK (
        ended_at IS NULL OR ended_at >= started_at
        )
 );
@@ -70,13 +70,13 @@ CREATE TABLE Operation (
    op_type OperationType NOT NULL,
    op_time TIMESTAMP NOT NULL DEFAULT NOW(),
    amount NUMERIC NOT NULL,
-   client_service_id BIGINT,
+   subscription_id BIGINT,
    description TEXT,
    CONSTRAINT pk_operation PRIMARY KEY (id),
    CONSTRAINT fk_operation_account FOREIGN KEY (account_id)
        REFERENCES Account(id)
        ON DELETE CASCADE,
-   CONSTRAINT fk_operation_client_service FOREIGN KEY (client_service_id)
-       REFERENCES ClientService(id),
+   CONSTRAINT fk_operation_subscription FOREIGN KEY (subscription_id)
+       REFERENCES Subscription(id),
    CONSTRAINT ck_operation_amount_positive CHECK (amount > 0)
 );

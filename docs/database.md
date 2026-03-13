@@ -33,7 +33,7 @@ erDiagram
         boolean isActive
     }
 
-    ClientService {
+    Subscription {
         bigserial id PK
         bigint clientId FK
         bigint serviceId FK
@@ -50,16 +50,16 @@ erDiagram
         varchar opType "PAYMENT|CHARGE"
         timestamp opTime
         numeric amount
-        bigint clientServiceId FK
+        bigint SubscriptionId FK
         text description
     }
 
     Client ||--|| Account: "Account.clientId -> Client.id"
     ServiceType ||--o{ Service: "ServiceType.id -> Service.serviceTypeId"
-    Client ||--o{ ClientService: "ClientService.clientId -> Client.id"
-    Service ||--o{ ClientService: "ClientService.serviceId -> Service.id"
+    Client ||--o{ Subscription: "Subscription.clientId -> Client.id"
+    Service ||--o{ Subscription: "Subscription.serviceId -> Service.id"
     Account ||--o{ Operation: "Operation.accountId -> Account.id"
-    ClientService ||--o{ Operation: "Operation.clientServiceId -> ClientService.id"
+    Subscription ||--o{ Operation: "Operation.SubscriptionId -> Subscription.id"
 ```
 
 # Описание таблиц
@@ -83,14 +83,14 @@ Service - каталог услуг (например “Mobile internet 20GB”
 В billing лежат тарифные/биллинговые параметры в JSON, 
 чтобы можно было по-разному описывать услуги без большого количества колонок.
 
-ClientService - конкретное подключение услуги клиенту (история оказания услуг). 
+Subscription - конкретное подключение услуги клиенту (история оказания услуг). 
 Тут видно когда началась услуга, когда закончилась, активна ли сейчас, и 
 есть external_id (например номер телефона или id договора). 
 В params лежат параметры именно этого подключения (например выбранный пакет, статический ip и т.п.).
 
 Operation - журнал финансовых операций по счетам (immutable log). 
 Тип операции: Payment (пополнение) или Charge (списание). 
-Если списание относится к конкретной услуге, то client_service_id указывает на неё, 
+Если списание относится к конкретной услуге, то subscription_id указывает на неё, 
 иначе NULL (обычно для пополнений).
 
 # Описание JSON cхем:
@@ -247,9 +247,9 @@ Operation - журнал финансовых операций по счетам
 
 ---
 
-## ClientService.params
+## Subscription.params
 
-Структура JSON в поле `ClientService.params` зависит от `ServiceType` подключённой услуги.
+Структура JSON в поле `Subscription.params` зависит от `ServiceType` подключённой услуги.
 
 ### В случае ServiceType = MOBILE_VOICE
 
@@ -288,3 +288,4 @@ Operation - журнал финансовых операций по счетам
 
 `tariff` - строка. Идентификатор/код выбранного тарифа в рамках подключения услуги. Обязательное поле.
 `senderName` - строка или null. Имя отправителя (подпись), используемое при отправке SMS, если поддерживается провайдером. Если значение null или поле отсутствует, используется отправка без пользовательского имени (или имя по умолчанию).
+
