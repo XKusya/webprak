@@ -39,7 +39,8 @@ public class Subscription {
     private Timestamp endedAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "status", nullable = false, columnDefinition = "SubscriptionStatus")
     @NonNull
     private SubscriptionStatus status;
 

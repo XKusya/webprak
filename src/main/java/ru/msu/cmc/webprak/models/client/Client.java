@@ -28,7 +28,8 @@ public class Client {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "client_type")
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "client_type", columnDefinition = "ClientType")
     private ClientType clientType;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -42,6 +43,6 @@ public class Client {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @OneToOne(mappedBy = "client")
+    @OneToOne(mappedBy = "client", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Account account;
 }
