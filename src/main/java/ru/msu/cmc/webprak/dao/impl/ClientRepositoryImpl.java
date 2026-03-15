@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import ru.msu.cmc.webprak.dao.ClientRepository;
 import ru.msu.cmc.webprak.models.client.Client;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -71,7 +71,7 @@ public class ClientRepositoryImpl extends BaseRepositoryImpl<Client, Long> imple
     }
 
     @Override
-    public Collection<Client> findWithOverdueDebt(Date currentDate) {
+    public Collection<Client> findWithOverdueDebt(LocalDate currentDate) {
         return entityManager
                 .createQuery(
                         "SELECT c FROM Client c " +

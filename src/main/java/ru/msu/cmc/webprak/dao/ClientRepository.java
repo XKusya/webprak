@@ -2,8 +2,8 @@ package ru.msu.cmc.webprak.dao;
 
 import ru.msu.cmc.webprak.models.client.Client;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 
 public interface ClientRepository extends BaseRepository<Client, Long> {
@@ -14,7 +14,7 @@ public interface ClientRepository extends BaseRepository<Client, Long> {
 
     Collection<Client> findWithNegativeBalance();
     Collection<Client> findWithCreditLimitExceeded();
-    Collection<Client> findWithOverdueDebt(Date currentDate);
+    Collection<Client> findWithOverdueDebt(LocalDate currentDate);
 
     Client findDetailedById(Long id);
 
