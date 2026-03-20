@@ -34,8 +34,8 @@ public class ClientRepositoryImpl extends BaseRepositoryImpl<Client, Long> imple
     public Collection<Client> findByServiceAndPeriod(Long serviceId, Timestamp from, Timestamp to) {
         return entityManager
                 .createQuery(
-                        "SELECT DISTINCT c FROM Client c " +
-                                "JOIN c.subscriptions s " +
+                        "SELECT DISTINCT c FROM Subscription s " +
+                                "JOIN s.client c " +
                                 "WHERE s.service.id = :serviceId " +
                                 "AND s.startedAt BETWEEN :from AND :to",
                         Client.class
@@ -89,7 +89,6 @@ public class ClientRepositoryImpl extends BaseRepositoryImpl<Client, Long> imple
                 .createQuery(
                         "SELECT DISTINCT c FROM Client c " +
                                 "LEFT JOIN FETCH c.account " +
-                                "LEFT JOIN FETCH c.subscriptions " +
                                 "WHERE c.id = :id",
                         Client.class
                 )

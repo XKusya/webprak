@@ -247,4 +247,26 @@ class OperationRepositoryImplTest {
         assertNotNull(result);
         assertEquals(charge.getId(), result.getId());
     }
+
+    @Test
+    void findLatestByAccountId_shouldReturnNull_whenNoOperations() {
+        Client client = new Client();
+        client.setName("Empty Ops");
+        client.setClientType(ClientType.PERSON);
+
+        Account emptyAccount = new Account();
+        emptyAccount.setClient(client);
+        emptyAccount.setBalance(new BigDecimal("0.00"));
+        emptyAccount.setCreditLimit(new BigDecimal("0.00"));
+        client.setAccount(emptyAccount);
+
+        entityManager.persist(client);
+        entityManager.persist(emptyAccount);
+        entityManager.flush();
+        entityManager.clear();
+
+        assertNull(operationRepository.findLatestByAccountId(emptyAccount.getId()));
+    }
+
+
 }

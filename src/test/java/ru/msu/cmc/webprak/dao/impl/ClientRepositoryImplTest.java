@@ -11,6 +11,9 @@ import ru.msu.cmc.webprak.dao.ClientRepository;
 import ru.msu.cmc.webprak.models.account.Account;
 import ru.msu.cmc.webprak.models.client.Client;
 import ru.msu.cmc.webprak.models.client.ClientType;
+import ru.msu.cmc.webprak.models.service.Service;
+import ru.msu.cmc.webprak.models.servicetype.ServiceType;
+import ru.msu.cmc.webprak.models.subscription.Subscription;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,6 +40,8 @@ class ClientRepositoryImplTest {
     void setUp() {
         entityManager.createQuery("DELETE FROM Operation").executeUpdate();
         entityManager.createQuery("DELETE FROM Subscription").executeUpdate();
+        entityManager.createQuery("DELETE FROM Service").executeUpdate();
+        entityManager.createQuery("DELETE FROM ServiceType").executeUpdate();
         entityManager.createQuery("DELETE FROM Account").executeUpdate();
         entityManager.createQuery("DELETE FROM Client").executeUpdate();
 
@@ -170,7 +175,49 @@ class ClientRepositoryImplTest {
     }
 
     @Test
+    void findDetailedById_shouldReturnClient_whenExists() {
+        Client result = clientRepository.findDetailedById(client1.getId());
+
+        assertNotNull(result);
+        assertEquals("Ivan Petrov", result.getName());
+        assertNotNull(result.getAccount());
+    }
+
+    @Test
+    void findDetailedById_shouldReturnNull_whenNotExists() {
+        assertNull(clientRepository.findDetailedById(-1L));
+    }
+
+    @Test
     void canBeDeleted_shouldReturnTrue_whenNoActiveSubscriptions() {
         assertTrue(clientRepository.canBeDeleted(client1.getId()));
+    }
+
+    @Test
+    void canBeDeleted_shouldReturnFalse_whenHasActiveSubscription() {
+        String typeName = "SMS-" + System.nanoTime();
+        String serviceName = "SMS Pack-" + System.nanoTime();
+
+        ServiceType type = new ServiceType();
+        type.setName(typeName);
+        entityManager.persist(type);
+
+        Service service =  new Service();
+        service.setServiceType(type);
+        service.setName(serviceName);
+        service.setDescription("SMS package");
+        service.setIsActive(true);
+        entityManager.persist(service);
+
+        Subscription subscription = new Subscription();
+        subscription.setClient(client1);
+        subscription.setService(service);
+        subscription.setStartedAt(java.sql.Timestamp.from(java.time.Instant.parse("2024-01-01T10:00:00Z")));
+        subscription.setStatus(ru.msu.cmc.webprak.models.subscription.SubscriptionStatus.ACTIVE);
+        subscription.setExternalId("79990000001");
+        entityManager.persist(subscription);
+        entityManager.flush();
+
+        assertFalse(clientRepository.canBeDeleted(client1.getId()));
     }
 }

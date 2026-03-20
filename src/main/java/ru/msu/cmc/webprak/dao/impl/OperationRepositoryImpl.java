@@ -93,7 +93,7 @@ public class OperationRepositoryImpl extends BaseRepositoryImpl<Operation, Long>
                 .setParameter("to", to)
                 .getSingleResult();
 
-        return result != null ? result : BigDecimal.ZERO;
+        return result;
     }
 
     @Override
@@ -142,6 +142,6 @@ public class OperationRepositoryImpl extends BaseRepositoryImpl<Operation, Long>
                 .setMaxResults(1)
                 .getResultList();
 
-        return result.isEmpty() ? null : result.get(0);
+        return result.isEmpty() ? null : result.getFirst();
     }
 }
