@@ -43,6 +43,6 @@ public class Client {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @OneToOne(mappedBy = "client", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private Account account;
 }

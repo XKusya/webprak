@@ -1,6 +1,7 @@
 package ru.msu.cmc.webprak.dao;
 
 import ru.msu.cmc.webprak.models.service.Service;
+import ru.msu.cmc.webprak.models.servicetype.ServiceType;
 
 import java.util.Collection;
 
@@ -11,4 +12,7 @@ public interface ServiceRepository extends BaseRepository<Service, Long> {
     Collection<Service> findByServiceTypeId(Long serviceTypeId);
 
     boolean existsActiveByName(String name);
+
+    Collection<ServiceType> getServiceTypes();
+    ServiceType getServiceTypeById(Long id);
 }

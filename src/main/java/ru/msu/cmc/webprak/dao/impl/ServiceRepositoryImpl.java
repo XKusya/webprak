@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import ru.msu.cmc.webprak.dao.ServiceRepository;
 import ru.msu.cmc.webprak.models.service.Service;
+import ru.msu.cmc.webprak.models.servicetype.ServiceType;
 
 import java.util.Collection;
 
@@ -78,5 +79,20 @@ public class ServiceRepositoryImpl extends BaseRepositoryImpl<Service, Long> imp
                 .getSingleResult();
 
         return count > 0;
+    }
+
+    @Override
+    public Collection<ServiceType> getServiceTypes() {
+        return entityManager
+                .createQuery(
+                        "SELECT st FROM ServiceType st ORDER BY st.name ASC",
+                        ServiceType.class
+                )
+                .getResultList();
+    }
+
+    @Override
+    public ServiceType getServiceTypeById(Long id) {
+        return entityManager.find(ServiceType.class, id);
     }
 }
