@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация клиента</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<th:block th:replace="~{general :: page-header}"></th:block>
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="mb-0">Регистрация клиента</h1>
+        <a class="btn btn-outline-secondary" th:href="@{/clients}">К списку</a>
+    </div>
+
+    <form th:action="@{/clients/new}" th:object="${client}" method="post">
+        <div class="card mb-4">
+            <div class="card-header">Основные данные</div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="clientType">Тип клиента</label>
+                        <select id="clientType" class="form-control" th:field="*{clientType}">
+                            <option value="">Выберите тип</option>
+                            <option value="PERSON">PERSON</option>
+                            <option value="ORG">ORG</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="clientName">Имя/Наименование</label>
+                        <input id="clientName" class="form-control" type="text" th:field="*{name}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">Контакты</div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="contactType0">Тип</label>
+                        <select id="contactType0" class="form-control" th:field="*{contacts[0].type}">
+                            <option value="PHONE">PHONE</option>
+                            <option value="EMAIL">EMAIL</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="contactValue0">Значение</label>
+                        <input id="contactValue0" class="form-control" type="text" th:field="*{contacts[0].value}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="contactType1">Тип</label>
+                        <select id="contactType1" class="form-control" th:field="*{contacts[1].type}">
+                            <option value="">Не добавлять</option>
+                            <option value="PHONE">PHONE</option>
+                            <option value="EMAIL">EMAIL</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="contactValue1">Значение</label>
+                        <input id="contactValue1" class="form-control" type="text" th:field="*{contacts[1].value}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">Реквизиты / Паспортные данные</div>
+            <div class="card-body">
+                <h6 class="text-muted">Для ORG</h6>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="legalName">Полное наименование</label>
+                        <input id="legalName" class="form-control" type="text" th:field="*{details.legalName}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inn">ИНН</label>
+                        <input id="inn" class="form-control" type="text" th:field="*{details.inn}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="kpp">КПП</label>
+                        <input id="kpp" class="form-control" type="text" th:field="*{details.kpp}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="ogrn">ОГРН</label>
+                        <input id="ogrn" class="form-control" type="text" th:field="*{details.ogrn}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="legalAddress">Юр. адрес</label>
+                        <input id="legalAddress" class="form-control" type="text" th:field="*{details.legalAddress}">
+                    </div>
+                </div>
+
+                <hr>
+
+                <h6 class="text-muted">Для PERSON</h6>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="lastName">Фамилия</label>
+                        <input id="lastName" class="form-control" type="text" th:field="*{details.lastName}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="firstName">Имя</label>
+                        <input id="firstName" class="form-control" type="text" th:field="*{details.firstName}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="middleName">Отчество</label>
+                        <input id="middleName" class="form-control" type="text" th:field="*{details.middleName}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="birthDate">Дата рождения</label>
+                        <input id="birthDate" class="form-control" type="date" th:field="*{details.birthDate}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="gender">Пол</label>
+                        <select id="gender" class="form-control" th:field="*{details.gender}">
+                            <option value="">Не указан</option>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="registrationAddress">Адрес регистрации</label>
+                        <input id="registrationAddress" class="form-control" type="text"
+                               th:field="*{details.registrationsAddress}">
+                    </div>
+                </div>
+
+                <h6 class="text-muted">Документ</h6>
+                <div class="form-row">
+                                        <div class="form-group col-md-3">
+                        <label for="docType">Тип</label>
+                        <select id="docType" class="form-control" th:field="*{details.document.type}">
+                            <option value="">Не указан</option>
+                            <option value="PASSPORT">PASSPORT</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="docSeries">Серия</label>
+                        <input id="docSeries" class="form-control" type="text" th:field="*{details.document.series}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="docNumber">Номер</label>
+                        <input id="docNumber" class="form-control" type="text" th:field="*{details.document.number}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="docIssuedAt">Дата выдачи</label>
+                        <input id="docIssuedAt" class="form-control" type="date" th:field="*{details.document.issuedAt}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="docIssuedBy">Кем выдан</label>
+                        <input id="docIssuedBy" class="form-control" type="text" th:field="*{details.document.issuedBy}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <button class="btn btn-primary mr-2" type="submit">Сохранить</button>
+            <a class="btn btn-outline-secondary" th:href="@{/clients}">Отмена</a>
+        </div>
+    </form>
+</div>
+
+<th:block th:replace="~{general :: site-footer}"></th:block>
+<th:block th:replace="~{general :: site-script}"></th:block>
+
+</body>
+</html>
+

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Услуги</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<th:block th:replace="~{general :: page-header}"></th:block>
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="mb-0">Услуги</h1>
+        <div>
+            <a class="btn btn-outline-primary mr-2" th:href="@{/services/new}">Добавить услугу</a>
+            <a class="btn btn-outline-secondary" th:href="@{/}">На главную</a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Фильтры</div>
+        <div class="card-body">
+            <form th:action="@{/services}" method="get">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="name">Поиск по названию</label>
+                        <input id="name" class="form-control" type="text" name="name" th:value="${name}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="serviceTypeId">Тип услуги</label>
+                        <select id="serviceTypeId" class="form-control" name="serviceTypeId">
+                            <option value="">Все</option>
+                            <option th:each="type : ${serviceTypes}"
+                                    th:value="${type.id}"
+                                    th:text="${type.name}"
+                                    th:selected="${type.id == serviceTypeId}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="status">Статус</label>
+                        <select id="status" class="form-control" name="status">
+                            <option th:each="st : ${statuses}"
+                                    th:value="${st}"
+                                    th:text="${st.label}"
+                                    th:selected="${st == status}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-primary mr-2" type="submit">Найти</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/services}">Сбросить</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Описание</th>
+                <th>Базовая стоимость</th>
+                <th>Активна</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${services == null || #lists.isEmpty(services)}">
+                <td colspan="7" class="text-center">Нет услуг</td>
+            </tr>
+            <tr th:each="service : ${services}">
+                <td th:text="${service.id}"></td>
+                <td th:text="${service.name}"></td>
+                <td th:text="${service.serviceType != null ? service.serviceType.name : '-'}"></td>
+                <td th:text="${service.description}"></td>
+                <td th:text="${service.billing != null ? service.billing.basePrice : '-'}"></td>
+                <td th:text="${service.isActive ? 'Да' : 'Нет'}"></td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary mr-2"
+                       th:href="@{/services/{id}(id=${service.id})}">
+                        Просмотр
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       th:href="@{/services/{id}/edit(id=${service.id})}">
+                        Редактировать
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<th:block th:replace="~{general :: site-footer}"></th:block>
+<th:block th:replace="~{general :: site-script}"></th:block>
+
+</body>
+</html>

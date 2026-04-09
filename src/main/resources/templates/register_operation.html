@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация операции</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<th:block th:replace="~{general :: page-header}"></th:block>
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="mb-0">Регистрация операции</h1>
+        <a class="btn btn-outline-secondary" th:href="@{/operations}">К списку</a>
+    </div>
+
+    <form th:action="@{/operations/new}" th:object="${operationForm}" method="post">
+        <div class="card mb-4">
+            <div class="card-header">Основные данные</div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="clientId">Клиент</label>
+                        <select id="clientId" class="form-control" th:field="*{clientId}">
+                            <option value="">Выберите клиента</option>
+                            <option th:each="client : ${clients}"
+                                    th:value="${client.id}"
+                                    th:text="${client.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="opType">Тип операции</label>
+                        <select id="opType" class="form-control" th:field="*{opType}">
+                            <option value="">Выберите тип</option>
+                            <option th:each="type : ${opTypes}"
+                                    th:value="${type}"
+                                    th:text="${type}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="opTime">Дата и время</label>
+                        <input id="opTime" class="form-control" type="datetime-local" th:field="*{opTime}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="amount">Сумма</label>
+                        <input id="amount" class="form-control" type="number" step="0.01" th:field="*{amount}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание</label>
+                    <input id="description" class="form-control" type="text" th:field="*{description}">
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">Подключённая услуга (для CHARGE)</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="subscriptionId">Подключение</label>
+                    <select id="subscriptionId" class="form-control" th:field="*{subscriptionId}">
+                        <option value="">Не выбирать</option>
+                        <option th:each="sub : ${subscriptions}"
+                                th:value="${sub.id}"
+                                th:text="${sub.client.name + ' - ' + sub.service.name}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <button class="btn btn-primary mr-2" type="submit">Сохранить</button>
+            <a class="btn btn-outline-secondary" th:href="@{/operations}">Отмена</a>
+        </div>
+    </form>
+</div>
+
+<th:block th:replace="~{general :: site-footer}"></th:block>
+<th:block th:replace="~{general :: site-script}"></th:block>
+
+</body>
+</html>

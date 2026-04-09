@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Карточка услуги</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<th:block th:replace="~{general :: page-header}"></th:block>
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h1 class="mb-0">Карточка услуги</h1>
+            <small class="text-muted">ID: <span th:text="${service.id}"></span></small>
+        </div>
+        <div>
+            <a class="btn btn-outline-primary mr-2" th:href="@{/services/{id}/edit(id=${service.id})}">
+                Редактировать
+            </a>
+            <a class="btn btn-outline-secondary" th:href="@{/services}">
+                Назад к списку
+            </a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <span th:text="${service.name}">Название</span>
+            <span class="badge badge-info" th:text="${service.serviceType != null ? service.serviceType.name : '-'}">TYPE</span>
+        </div>
+        <div class="card-body">
+            <p class="mb-1"><strong>Описание:</strong> <span th:text="${service.description}"></span></p>
+            <p class="mb-1"><strong>Активна:</strong> <span th:text="${service.isActive ? 'Да' : 'Нет'}"></span></p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Параметры тарификации</div>
+        <div class="card-body">
+            <p class="mb-1"><strong>Единица:</strong> <span th:text="${service.billing.unit}"></span></p>
+            <p class="mb-1"><strong>Базовая стоимость:</strong> <span th:text="${service.billing.basePrice}"></span></p>
+            <p class="mb-1"><strong>Абонплата в месяц:</strong> <span th:text="${service.billing.monthlyFee}"></span></p>
+            <p class="mb-1"><strong>Включённые минуты:</strong> <span th:text="${service.billing.includedMinutes}"></span></p>
+            <p class="mb-1"><strong>Плата за соединение:</strong> <span th:text="${service.billing.callSetupFee}"></span></p>
+            <p class="mb-1"><strong>Квота, ГБ:</strong> <span th:text="${service.billing.quotaGb}"></span></p>
+            <p class="mb-1"><strong>Цена за 1 ГБ сверх квоты:</strong> <span th:text="${service.billing.overagePricePerGb}"></span></p>
+            <p class="mb-1"><strong>Скорость после квоты, Мбит/с:</strong> <span th:text="${service.billing.speedLimitAfterQuotaMbps}"></span></p>
+            <p class="mb-1"><strong>Размер пакета SMS:</strong> <span th:text="${service.billing.bundleSize}"></span></p>
+            <p class="mb-1"><strong>Стоимость пакета SMS:</strong> <span th:text="${service.billing.bundlePrice}"></span></p>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{general :: site-footer}"></th:block>
+<th:block th:replace="~{general :: site-script}"></th:block>
+
+</body>
+</html>

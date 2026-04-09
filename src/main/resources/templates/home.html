@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<th:block th:replace="~{general :: page-header}"></th:block>
+
+<div class="container mt-4">
+    <h1>Биллинговая база оператора связи</h1>
+    <p class="lead">Навигация по основным разделам</p>
+
+    <div class="list-group">
+        <a class="list-group-item list-group-item-action" th:href="@{/clients}">
+            Клиенты
+        </a>
+        <a class="list-group-item list-group-item-action" th:href="@{/clients/new}">
+            Зарегистрировать клиента
+        </a>
+        <a class="list-group-item list-group-item-action" th:href="@{/operations}">
+            Операции
+        </a>
+        <a class="list-group-item list-group-item-action" th:href="@{/services}">
+            Услуги
+        </a>
+    </div>
+</div>
+
+<th:block th:replace="~{general :: site-footer}"></th:block>
+<th:block th:replace="~{general :: site-script}"></th:block>
+
+</body>
+</html>
