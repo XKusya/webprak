@@ -1,4 +1,4 @@
-﻿INSERT INTO ServiceType (name)
+INSERT INTO ServiceType (name)
 VALUES
   ('MOBILE_VOICE'),
   ('MOBILE_INTERNET'),

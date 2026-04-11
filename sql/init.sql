@@ -1,4 +1,4 @@
-﻿CREATE TYPE ClientType AS ENUM ('PERSON', 'ORG');
+CREATE TYPE ClientType AS ENUM ('PERSON', 'ORG');
 CREATE TYPE SubscriptionStatus AS ENUM ('ACTIVE', 'ENDED');
 CREATE TYPE OperationType AS ENUM ('PAYMENT', 'CHARGE');
 

@@ -34,9 +34,12 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'com.microsoft.playwright:playwright:1.43.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testImplementation 'com.microsoft.playwright:playwright:1.43.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
