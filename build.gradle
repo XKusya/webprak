@@ -8,6 +8,7 @@ group = 'ru.msu.cmc'
 version = '0.0.1-SNAPSHOT'
 description = 'My first web-development project'
 
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(25)
@@ -95,4 +96,9 @@ tasks.register('dbShow', Exec) {
 	group = 'db'
 	description = 'Показать содержимое всех таблиц БД'
 	commandLine psqlCmd(['-f', '/sql/show_all.sql'])
+}
+
+tasks.register('playwright', JavaExec) {
+	classpath sourceSets.test.runtimeClasspath
+	mainClass = 'com.microsoft.playwright.CLI'
 }

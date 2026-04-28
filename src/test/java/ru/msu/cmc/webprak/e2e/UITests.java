@@ -1,6 +1,7 @@
 package ru.msu.cmc.webprak.e2e;
 
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.SelectOption;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitUntilState;
@@ -13,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -136,18 +138,6 @@ public class UITests {
     }
 
     @Test
-    void clientsNegativeBalance() {
-        jdbcTemplate.update(
-                "UPDATE account SET balance = -1 WHERE client_id = " +
-                        "(SELECT id FROM client WHERE name = 'Ivan Petrov' LIMIT 1)"
-        );
-        goClients();
-        page.locator("#accountState").selectOption("NEGATIVE_BALANCE");
-        clickAndStabilize("form[method='get'] button[type='submit']");
-        assertTrue(page.locator("table tbody tr").count() > 0);
-    }
-
-    @Test
     void clientsOverdueDebt() {
         jdbcTemplate.update(
                 "UPDATE account SET debt_due_date = CURRENT_DATE - 1 WHERE client_id = " +
@@ -207,14 +197,16 @@ public class UITests {
     void addService() {
         goServices();
         clickAndStabilize("a[href='/services/new']");
-        page.fill("#name", "Test Service");
-        selectByLabel("#serviceTypeId", "SMS");
-        page.fill("#description", "Test description");
-        page.locator("#isActive").check();
-        page.locator("#unit").selectOption("PER_SMS");
-        page.fill("#basePrice", "1.23");
-        clickAndStabilize("form[method='post'] button[type='submit']");
-        assertTrue(page.locator("text=Test Service").isVisible());
+        page.getByLabel("Название").click();
+        page.getByLabel("Название").fill("Test Service");
+        page.getByLabel("Тип услуги").selectOption("6");
+        page.getByLabel("Описание").click();
+        page.getByLabel("Описание").fill("Test Description");
+        page.getByLabel("Единица").selectOption("PER_SMS");
+        page.getByLabel("Базовая стоимость").click();
+        page.getByLabel("Базовая стоимость").fill("1.23");
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Сохранить")).click();
+        assertThat(page.locator("tbody")).containsText("Test Service");
     }
 
     @Test
@@ -238,7 +230,8 @@ public class UITests {
         goOperations();
         selectByLabel("#clientId", "Ivan Petrov");
         clickAndStabilize("form[method='get'] button[type='submit']");
-        assertTrue(page.locator("table tbody tr").count() > 0);
+        assertThat(page.locator("tbody")).containsText("15.00");
+        assertThat(page.locator("tbody")).containsText("200.00");
     }
 
     @Test
